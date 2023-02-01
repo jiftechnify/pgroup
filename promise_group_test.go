@@ -50,6 +50,7 @@ func TestGoAndForget_err(t *testing.T) {
 	GoAndForget(pg, etask)
 	GoAndForget(pg, e2task)
 
+	// e2task is canceled on etask returned error, so it blocks only 1 sec.
 	err := pg.Wait()
 	if err == nil {
 		t.Fatal("error is expected")
@@ -72,6 +73,7 @@ func TestGoAndForget_timeoutParentCtx(t *testing.T) {
 	GoAndForget(pg, task)
 	GoAndForget(pg, etask)
 
+	// the parent context timeouts before all tasks are completed, so it blocks only 1 sec.
 	err := pg.Wait()
 	if err == nil {
 		t.Fatal("error is expected")
@@ -117,6 +119,7 @@ func TestGo_err(t *testing.T) {
 	_ = Go(pg, etask)
 	_ = Go(pg, e2task)
 
+	// e2task is canceled on etask returned error, so it blocks only 1 sec.
 	err := pg.Wait()
 	if err == nil {
 		t.Fatal("error is expected")
@@ -138,6 +141,7 @@ func TestGo_timeoutParentCtx(t *testing.T) {
 	_ = Go(pg, intTask)
 	_ = Go(pg, etask)
 
+	// the parent context timeouts before all tasks are completed, so it blocks only 1 sec.
 	err := pg.Wait()
 	if err == nil {
 		t.Fatal("error is expected")
